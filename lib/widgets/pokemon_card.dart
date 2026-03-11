@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/screens/pokemon_detail_screen.dart';
 
 class PokemonCard extends StatefulWidget {
   const PokemonCard({super.key, required this.pokemon});
@@ -17,61 +18,70 @@ class _PokemonCardState extends State<PokemonCard> {
   Widget build(BuildContext context) {
     final pokemon = widget.pokemon;
 
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    _toTitleCase(pokemon.name),
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => PokemonDetailScreen(pokemon: pokemon),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _toTitleCase(pokemon.name),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text('#${pokemon.id}'),
                   ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text('#${pokemon.id}'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            _buildCarousel(context, pokemon),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                ...pokemon.types.map(_buildTypeChip),
-                ...pokemon.abilities.map(_buildAbilityChip),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 14,
-              runSpacing: 8,
-              children: [
-                _detailText('Base XP', '${pokemon.baseExperience}'),
-                _detailText('Height', '${pokemon.height / 10} m'),
-                _detailText('Weight', '${pokemon.weight / 10} kg'),
-              ],
-            ),
-            const SizedBox(height: 12),
-            _buildStats(pokemon),
-          ],
+                ],
+              ),
+              const SizedBox(height: 12),
+              _buildCarousel(context, pokemon),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  ...pokemon.types.map(_buildTypeChip),
+                  ...pokemon.abilities.map(_buildAbilityChip),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 14,
+                runSpacing: 8,
+                children: [
+                  _detailText('Base XP', '${pokemon.baseExperience}'),
+                  _detailText('Height', '${pokemon.height / 10} m'),
+                  _detailText('Weight', '${pokemon.weight / 10} kg'),
+                ],
+              ),
+              const SizedBox(height: 12),
+              _buildStats(pokemon),
+            ],
+          ),
         ),
       ),
     );

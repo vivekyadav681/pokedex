@@ -9,6 +9,10 @@ class Pokemon {
     required this.abilities,
     required this.stats,
     required this.imageUrls,
+    this.generation = '',
+    this.isLegendary = false,
+    this.isMythical = false,
+    this.isPseudoLegendary = false,
   });
 
   final int id;
@@ -20,6 +24,10 @@ class Pokemon {
   final List<String> abilities;
   final Map<String, int> stats;
   final List<String> imageUrls;
+  final String generation;
+  final bool isLegendary;
+  final bool isMythical;
+  final bool isPseudoLegendary;
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
     final sprites = (json['sprites'] as Map<String, dynamic>? ?? {});
@@ -75,6 +83,33 @@ class Pokemon {
           .toList(),
       stats: parsedStats,
       imageUrls: images,
+      generation: '',
+      isLegendary: false,
+      isMythical: false,
+      isPseudoLegendary: false,
+    );
+  }
+
+  Pokemon copyWith({
+    String? generation,
+    bool? isLegendary,
+    bool? isMythical,
+    bool? isPseudoLegendary,
+  }) {
+    return Pokemon(
+      id: id,
+      name: name,
+      baseExperience: baseExperience,
+      height: height,
+      weight: weight,
+      types: types,
+      abilities: abilities,
+      stats: stats,
+      imageUrls: imageUrls,
+      generation: generation ?? this.generation,
+      isLegendary: isLegendary ?? this.isLegendary,
+      isMythical: isMythical ?? this.isMythical,
+      isPseudoLegendary: isPseudoLegendary ?? this.isPseudoLegendary,
     );
   }
 }
